@@ -1,6 +1,7 @@
 {
     "name": "shua 4 Extension",
-    "version": "0.1",
+    "description": "A lovely downloader",
+    "version": "0.2",
     "author": "4Y4M3",
     "manifest_version": 3,
 
