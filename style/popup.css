@@ -3,18 +3,25 @@ body {
 	font-size: 9pt;
 }
 
-input, label{
-	margin: 2px;
+code {
+	font-weight: bold;
+	background-color: azure;
 }
 
-#URL{
-	width: 500px;
+textarea {
+	min-height: 3em;
+	resize: vertical;
 }
 
-#Delay{
+button {
+	float: right;
+	user-select: none;
+}
+
+#URL {
+	width: 600px;
+}
+
+#Delay {
 	width: 80px;
-}
-
-#Go{
-	float: right
 }

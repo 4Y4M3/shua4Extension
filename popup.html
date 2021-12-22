@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Popup - shua for Extension</title>
-    <script src="popup.js" type="module"></script>
-    <link rel="stylesheet" type="text/css" href="style/popup.css">
-  </head>
 
-  <body>
-    <form id="Form">
-      <span>Syntax: {{%d(start: integer, end: integer, step?: integer, leftPad?: integer)}}</span><br/>
-      <input id="URL" placeholder="TARGET URL"/><br/>
-      <labe>Delay(ms):<input id="Delay" type="number"/></labe>
-      <span id="Message" hidden></span>
-      <button id="Go">😎</button>
-    </form>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Popup - shua for Extension</title>
+  <script src="popup.js" type="module"></script>
+  <link rel="stylesheet" type="text/css" href="style/popup.css">
+</head>
+
+<body>
+  <span>Syntax: <code>{{%d(start: integer, end: integer, step?: integer, leftPad?: integer)}}</code></span><br />
+  <textarea id="URL" rows="3" placeholder="https://"></textarea><br />
+  <labe>Delay(ms): <input id="Delay" type="number" /></labe>
+  <span id="Message" hidden></span>
+  <button id="Go">😎</button>
+  <button id="Injection">💉</button>
+</body>
+
 </html>

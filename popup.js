@@ -4,21 +4,22 @@ const DEFAULT_DELAY = 200;  // millisecond
 const DEBUG = false;
 
 const go = document.getElementById("Go");
-const form = document.getElementById("Form");
+const injection = document.getElementById("Injection");
+
 const delay = document.getElementById("Delay");
 const target = document.getElementById("URL");
 const message = document.getElementById("Message");
 
-form.addEventListener("submit", handleFormSubmit);
+go.addEventListener("click", handleGoClick);
+injection.addEventListener("click", handleInjectionClick);
 
-if (DEBUG) setMessage("init");
 delay.value = DEFAULT_DELAY;
 
-if(DEBUG) target.value = "https://ja.wikipedia.org/wiki/{{%d(1,5,2,3)}}"
+if (DEBUG) setMessage("init");
+if (DEBUG) target.value = "https://ja.wikipedia.org/wiki/{{%d(1,5,2,3)}}"
 
-async function handleFormSubmit(event) {
-    event.preventDefault();
-
+//😎
+async function handleGoClick() {
     clearMessage();
     if (DEBUG) setMessage("Start.");
     go.innerHTML = "😍";
@@ -38,6 +39,16 @@ async function handleFormSubmit(event) {
 
     if (DEBUG) setMessage("End.");
     go.innerHTML = "😎";
+}
+
+//💉
+async function handleInjectionClick() {
+    clearMessage();
+    target.value = target.value.substr(0, target.selectionStart)
+        + "{{%d("
+        + target.value.substr(target.selectionStart, target.selectionEnd - target.selectionStart)
+        + ")}}"
+        + target.value.substr(target.selectionEnd);
 }
 
 function openUrl(input) {
