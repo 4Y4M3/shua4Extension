@@ -12,13 +12,9 @@ input, label{
 }
 
 #Delay{
-	width: 50px;
+	width: 80px;
 }
 
-#Progress{
-	width: 300px;
-}
-
-#Button{
+#Go{
 	float: right
 }

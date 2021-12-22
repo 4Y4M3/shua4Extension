@@ -9,11 +9,11 @@
 
   <body>
     <form id="Form">
+      <span>Syntax: {{%d(start: integer, end: integer, step?: integer, leftPad?: integer)}}</span><br/>
       <input id="URL" placeholder="TARGET URL"/><br/>
-      <labe>Delay(ms):<input id="Delay"/></labe>
-      <progress id="Progress" max="100" value="0"></progress>
-      <button id="Run">😎</button>
+      <labe>Delay(ms):<input id="Delay" type="number"/></labe>
+      <span id="Message" hidden></span>
+      <button id="Go">😎</button>
     </form>
-  </body>  
-  <span id="message" hidden></span>
+  </body>
 </html>
