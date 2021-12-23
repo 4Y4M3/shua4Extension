@@ -3,9 +3,14 @@ body {
 	font-size: 9pt;
 }
 
+div {
+	padding: 2px;
+	width: 600px;
+}
+
 code {
 	font-weight: bold;
-	background-color: azure;
+	background-color: lightcyan;
 }
 
 textarea {
@@ -15,13 +20,20 @@ textarea {
 
 button {
 	float: right;
-	user-select: none;
+	margin-left: 10px;
 }
 
 #URL {
-	width: 600px;
+	width: 100%;
 }
 
 #Delay {
 	width: 80px;
+}
+
+#Message {
+	border-left :solid 2px orange;
+	margin-top: 5px;
+	padding-left: 5px;
+	word-wrap: break-word;
 }
