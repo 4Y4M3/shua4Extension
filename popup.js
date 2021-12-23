@@ -24,20 +24,26 @@ async function handleGoClick() {
     if (DEBUG) setMessage("Start.");
     go.innerHTML = "😍";
 
-    var urls = [];
+    try {
+        var urls = [];
 
-    const expressionParser = new ExpressionParser(target.value);
-    urls.push(
-        ...expressionParser.getUrls().map((url) => { return url; })
-    );
+        const expressionParser = new ExpressionParser(target.value);
+        urls.push(
+            ...expressionParser.getUrls().map((url) => { return url; })
+        );
 
-    for (var url of urls) {
-        setMessage(url);
-        openUrl(url);
-        await sleep(getDelay());
+        for (var url of urls) {
+            setMessage(url);
+            openUrl(url);
+            await sleep(getDelay());
+        }
+
+        if (DEBUG) setMessage("Success.");
+        
+    } catch (error) {
+        setMessage(error.message, "red");
     }
-
-    if (DEBUG) setMessage("End.");
+    
     go.innerHTML = "😎";
 }
 
@@ -69,8 +75,9 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function setMessage(str) {
+function setMessage(str, color = "black") {
     message.textContent = str;
+    message.style.color = color;
     message.hidden = false;
 }
 
