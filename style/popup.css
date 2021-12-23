@@ -1,11 +1,15 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
+	width: 600px;
 	margin: 5px;
 	font-size: 9pt;
 }
 
 div {
 	padding: 2px;
-	width: 600px;
 }
 
 code {
