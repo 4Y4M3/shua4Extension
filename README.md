@@ -20,10 +20,10 @@ Just use the following command
 `https://example.com/{{%d(1, 100)}}`
 
 ## Force Download Mode
-- [x] Download a URL.
+- [x] Download a URL.  
 Use API `chrome.downloads.download`
 https://developer.chrome.com/docs/extensions/reference/downloads/
-- [ ] Opening a page in a new background tab.
+- [ ] Opening a page in a new background tab.  
 Use API `chrome.tabs.create`
 https://developer.chrome.com/docs/extensions/reference/tabs/
 
