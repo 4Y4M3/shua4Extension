@@ -33,15 +33,14 @@ async function handleGoClick() {
             ...expressionParser.getUrls().map((url) => { return url; })
         );
 
-        for (var url of urls) {
-            setMessage(url);
-
-            if (forceDL.checked)
-                downloadUrl(url);
-            else
+        if (urls.length == 0) {
+            openUrl(target.value);
+        }
+        else {
+            for (var url of urls) {
                 openUrl(url);
-
-            await sleep(getDelay());
+                await sleep(getDelay());
+            }
         }
 
         if (DEBUG) setMessage("Success.");
@@ -64,16 +63,18 @@ async function handleInjectionClick() {
 }
 
 function openUrl(input) {
-    chrome.tabs.create({
-        url: input,
-        active: false,
-    });
-}
-
-function downloadUrl(input) {
-    chrome.downloads.download({
-        url: input
-    });
+    setMessage(input);
+    if (forceDL.checked) {
+        chrome.downloads.download({
+            url: input
+        });
+    }
+    else {
+        chrome.tabs.create({
+            url: input,
+            active: false,
+        });
+    }
 }
 
 function getDelay() {
