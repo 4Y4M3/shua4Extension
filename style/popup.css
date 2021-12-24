@@ -35,8 +35,13 @@ button {
 	width: 80px;
 }
 
+#ForceDL {
+	margin-left: 20px;
+	vertical-align: middle;
+}
+
 #Message {
-	border-left :solid 2px orange;
+	border-left: solid 2px orange;
 	margin-top: 5px;
 	padding-left: 5px;
 	word-wrap: break-word;

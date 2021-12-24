@@ -6,8 +6,9 @@ const DEBUG = false;
 const go = document.getElementById("Go");
 const injection = document.getElementById("Injection");
 
-const delay = document.getElementById("Delay");
 const target = document.getElementById("URL");
+const delay = document.getElementById("Delay");
+const forceDL = document.getElementById("ForceDL");
 const message = document.getElementById("Message");
 
 go.addEventListener("click", handleGoClick);
@@ -34,16 +35,21 @@ async function handleGoClick() {
 
         for (var url of urls) {
             setMessage(url);
-            openUrl(url);
+
+            if (forceDL.checked)
+                downloadUrl(url);
+            else
+                openUrl(url);
+
             await sleep(getDelay());
         }
 
         if (DEBUG) setMessage("Success.");
-        
+
     } catch (error) {
         setMessage(error.message, "red");
     }
-    
+
     go.innerHTML = "😎";
 }
 
@@ -61,6 +67,12 @@ function openUrl(input) {
     chrome.tabs.create({
         url: input,
         active: false,
+    });
+}
+
+function downloadUrl(input) {
+    chrome.downloads.download({
+        url: input
     });
 }
 
