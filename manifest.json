@@ -13,6 +13,10 @@
         "default_popup": "popup.html"
     },
 
+    "background": {
+      "service_worker": "background.js"
+    },
+
     "permissions": [ "tabs", "downloads" ],
 
     "homepage_url": "https://github.com/4Y4M3/shua4Extension"

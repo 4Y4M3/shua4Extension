@@ -5,6 +5,7 @@ const DEBUG = false;
 
 const go = document.getElementById("Go");
 const injection = document.getElementById("Injection");
+const dummy = document.getElementById("Dummy");
 
 const target = document.getElementById("URL");
 const delay = document.getElementById("Delay");
@@ -13,6 +14,7 @@ const message = document.getElementById("Message");
 
 go.addEventListener("click", handleGoClick);
 injection.addEventListener("click", handleInjectionClick);
+dummy.addEventListener("click", handleDummyClick);
 
 delay.value = DEFAULT_DELAY;
 
@@ -60,6 +62,11 @@ async function handleInjectionClick() {
         + target.value.substr(target.selectionStart, target.selectionEnd - target.selectionStart)
         + ")}}"
         + target.value.substr(target.selectionEnd);
+}
+
+//🔥
+async function handleDummyClick(){
+    chrome.runtime.sendMessage({type: 'DummyClick', data:'🔥'});
 }
 
 function openUrl(input) {
