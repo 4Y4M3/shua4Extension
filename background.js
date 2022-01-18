@@ -1,6 +1,9 @@
 chrome.runtime.onMessage.addListener((request, sender) => {
-	if(request.type == 'DummyClick'){
+	if(request.type == "ConsoleLog"){
 		console.log(request.data);
-		return true;
 	}
 });
+
+function log(str){
+	console.log("[bg] " + str);
+}
