@@ -1,5 +1,3 @@
-import ExpressionParser from "./expression_parser.js";
-
 const DEFAULT_DELAY = 200;  // millisecond
 const DEBUG = false;
 
@@ -16,65 +14,44 @@ injection.addEventListener("click", handleInjectionClick);
 
 delay.value = DEFAULT_DELAY;
 
-if (DEBUG) setMessage("init");
 if (DEBUG) target.value = "https://ja.wikipedia.org/wiki/{{%d(1,5,2,3)}}"
+
+init();
+
+//initialize
+function init (){
+    log("init");
+    chrome.runtime.sendMessage({type: "init"}, function(isRunning){
+        if(isRunning){
+            go.innerHTML = "😍";
+        }
+        else{
+            go.innerHTML = "😎";
+        }
+    });
+}
 
 //😎
 async function handleGoClick() {
     clearMessage();
-    if (DEBUG) setMessage("Start.");
-    go.innerHTML = "😍";
-
-    try {
-        var urls = [];
-
-        const expressionParser = new ExpressionParser(target.value);
-        urls.push(
-            ...expressionParser.getUrls().map((url) => { return url; })
-        );
-
-        if (urls.length == 0) {
-            openUrl(target.value);
-        }
-        else {
-            for (var url of urls) {
-                openUrl(url);
-                await sleep(getDelay());
-            }
-        }
-
-        if (DEBUG) setMessage("Success.");
-
-    } catch (error) {
-        setMessage(error.message, "red");
-    }
-
-    go.innerHTML = "😎";
+    log("😎");
+    chrome.runtime.sendMessage({
+        type: "😎",
+        data: target.value,
+        mode: forceDL.checked,
+        delay: getDelay()
+    });
 }
 
 //💉
 async function handleInjectionClick() {
     clearMessage();
+    log("💉");    
     target.value = target.value.substr(0, target.selectionStart)
         + "{{%d("
         + target.value.substr(target.selectionStart, target.selectionEnd - target.selectionStart)
         + ")}}"
         + target.value.substr(target.selectionEnd);
-}
-
-function openUrl(input) {
-    setMessage(input);
-    if (forceDL.checked) {
-        chrome.downloads.download({
-            url: input
-        });
-    }
-    else {
-        chrome.tabs.create({
-            url: input,
-            active: false,
-        });
-    }
 }
 
 function getDelay() {
@@ -84,11 +61,7 @@ function getDelay() {
     else return delay.value;
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function setMessage(str, color = "black") {
+function setMessage(str, color) {
     log("msg: "+str);
     message.textContent = str;
     message.style.color = color;
@@ -100,6 +73,12 @@ function clearMessage() {
     message.textContent = "";
     message.hidden = true;
 }
+
+chrome.runtime.onMessage.addListener((request) => {
+    if(request.type == "Message"){
+        setMessage(request.data, request.color);
+    }
+});
 
 function log(str){
     chrome.runtime.sendMessage({type: "ConsoleLog", data:"[pop] " + str});
