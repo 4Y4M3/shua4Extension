@@ -1,6 +1,4 @@
-const DEFAULT_DELAY = 200;  // millisecond
-const DEBUG = false;
-
+// popup.html Element
 const go = document.getElementById("Go");
 const injection = document.getElementById("Injection");
 
@@ -12,46 +10,71 @@ const message = document.getElementById("Message");
 go.addEventListener("click", handleGoClick);
 injection.addEventListener("click", handleInjectionClick);
 
+// SETTING
+const DEBUG_MODE = false;
+const DEFAULT_DELAY = 200;  // millisecond
 delay.value = DEFAULT_DELAY;
 
-if (DEBUG) target.value = "https://ja.wikipedia.org/wiki/{{%d(1,5,2,3)}}"
-
-init();
-
-//initialize
-function init (){
-    log("init");
-    chrome.runtime.sendMessage({type: "init"}, function(isRunning){
-        if(isRunning){
-            go.innerHTML = "😍";
-        }
-        else{
-            go.innerHTML = "😎";
-        }
-    });
+if (DEBUG_MODE) {
+    log("DEBUG MODE");
+    target.value = "https://ja.wikipedia.org/wiki/{{%d(1,5,2,3)}}"
 }
 
-//😎
+// init
+log("init");
+StatusCheck();
+
+// [Button] 😎/😍
 async function handleGoClick() {
     clearMessage();
-    log("😎");
-    chrome.runtime.sendMessage({
-        type: "😎",
-        data: target.value,
-        mode: forceDL.checked,
-        delay: getDelay()
-    });
+
+    if (StatusCheck()) {
+        if (target.value) {
+            log("[send] 😎");
+            log("[send] target: " + target.value);
+            log("[send] DL Mode: " + forceDL.checked);
+            log("[send] Delay: " + getDelay());
+
+            chrome.runtime.sendMessage({
+                type: "😎",
+                data: target.value,
+                mode: forceDL.checked,
+                delay: getDelay()
+            });
+        }
+    }
+
+    else {
+        log("[send] 😍");
+        chrome.runtime.sendMessage({ type: "😍" });
+    }
+
+    StatusCheck();
 }
 
-//💉
+// [Button] 💉
 async function handleInjectionClick() {
     clearMessage();
-    log("💉");    
+
+    log("💉");
     target.value = target.value.substr(0, target.selectionStart)
         + "{{%d("
         + target.value.substr(target.selectionStart, target.selectionEnd - target.selectionStart)
         + ")}}"
         + target.value.substr(target.selectionEnd);
+}
+
+function StatusCheck() {
+    log("StatusRequest");
+    chrome.runtime.sendMessage({ type: "StatusRequest" }, function (Status) {
+        go.innerHTML = Status;
+    });
+
+    if (go.innerHTML == "😎") {
+        return true;
+    } else if (go.innerHTML == "😍") {
+        return false;
+    }
 }
 
 function getDelay() {
@@ -62,24 +85,35 @@ function getDelay() {
 }
 
 function setMessage(str, color) {
-    log("msg: "+str);
+    log("Msg: " + str);
     message.textContent = str;
     message.style.color = color;
     message.hidden = false;
 }
 
 function clearMessage() {
-    log("msg clear");
+    log("Msg Clear");
     message.textContent = "";
     message.hidden = true;
 }
 
 chrome.runtime.onMessage.addListener((request) => {
-    if(request.type == "Message"){
-        setMessage(request.data, request.color);
+    // [recv] Message
+    if (request.type == "Message") {
+        setMessage(request.msg, request.color);
+    }
+
+    // [recv] Complete
+    else if (request.type == "Complete") {
+        if (request.rc == 0) {
+            clearMessage();
+        }
+        go.innerHTML = "😎";
     }
 });
 
-function log(str){
-    chrome.runtime.sendMessage({type: "ConsoleLog", data:"[pop] " + str});
+function log(str) {
+    if (DEBUG_MODE) {
+        chrome.runtime.sendMessage({ type: "ConsoleLog", data: "[pop] " + str });
+    }
 }
