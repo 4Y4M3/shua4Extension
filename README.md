@@ -21,10 +21,10 @@ Just use the following command
 
 ## Force Download Mode
 - [x] Download a URL.  
-Use API `chrome.downloads.download`
+Use API `chrome.downloads.download`  
 https://developer.chrome.com/docs/extensions/reference/downloads/
 - [ ] Opening a page in a new background tab.  
-Use API `chrome.tabs.create`
+Use API `chrome.tabs.create`  
 https://developer.chrome.com/docs/extensions/reference/tabs/
 
 ---
